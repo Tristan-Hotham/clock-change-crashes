@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Do the clocks kill? | Road collisions either side of the clock changes</title>
+<meta name="description" content="Every reported injury road collision in Great Britain, 1979 to 2025, in the week after each clock change and the weeks around it.">
+<meta property="og:title" content="Do the clocks kill?">
+<meta property="og:description" content="In the week after the clocks go forward, reported collisions changed by {{x.h1_spring_n_pc|f1}}%. After they go back, by {{x.h1_autumn_n_pc|f1}}%. {{x.coll_m|f1}} million collisions, 1979 to 2025.">
+<meta property="og:image" content="https://maps.tristanhotham.com/clock-change-crashes/header.png">
+<meta property="og:url" content="https://maps.tristanhotham.com/clock-change-crashes/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800;9..144,900&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<style>
+{{CSS}}
+.hd{margin:22px 0;border:1px solid var(--border);background:var(--card);padding:12px}
+.hd .row1{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;font:400 13px/1.3 var(--mono)}
+.hd button{font:500 12px/1 var(--mono);background:var(--card);color:var(--fg);border:1px solid var(--border);border-radius:999px;padding:8px 11px;cursor:pointer;min-height:34px}
+.hd button[aria-pressed="true"]{background:var(--hot);color:#fff;border-color:var(--hot)}
+.hd svg{width:100%;height:auto;display:block}
+.hd .hdlab{color:var(--muted)}
+.hd .tip{font:400 12.5px/1.4 var(--mono);color:var(--muted);min-height:2.8em;margin-top:6px}
+</style></head>
+<body>
+<div class="topbar">
+  <a class="tb-name" href="#mapWrap">Do the clocks kill?</a>
+  <span class="tb-k">Data study · 2026</span>
+  <nav class="tb-links"><a href="#essay">About</a><button class="theme" id="theme" aria-label="Toggle dark mode">◐</button><a href="https://doi.org/10.5281/zenodo.24112857">Paper</a><a class="x" href="{{REPO}}">Data and code</a></nav>
+</div>
+<div class="mapband">
+  <div class="pane" id="mapWrap" data-fullscreen-map role="application" aria-label="Map of local authority districts in Great Britain coloured by the change in collisions in the week after the clocks go back">
+    <div id="map"></div>
+    <div class="nojs" id="nojs">Loading the map. It needs JavaScript and WebGL.</div>
+    <div class="cartouche" id="cartouche">
+      <button class="ct-toggle" id="ctToggle" aria-expanded="true">Do the clocks kill? ▾</button>
+      <button class="ct-fold" id="ctFold" title="Fold the title" aria-label="Fold the title">▴</button>
+      <div class="ct-body">
+        <div class="kicker"><b>Data study</b><span>2026</span></div>
+        <h1>Do the clocks <span class="a">kill?</span></h1>
+        <p class="dek">Reported injury road collisions in the week after each clock change, compared with the same weekdays three weeks either side. Great Britain, {{data.collisions|int}} collisions, 1979 to 2025. The map shows each district from 2009 to 2025: mostly noise. Tap a district.</p>
+        <div class="byline">{{BYLINE}}</div>
+      </div>
+    </div>
+    <div class="ov-top">
+      <div class="srch"><input type="search" id="q" placeholder="Find a district" aria-label="Find a district" autocomplete="off"><ul class="sug" id="sug" role="listbox"></ul></div>
+      <div class="chips"><button class="chip" data-m="a" aria-pressed="true">Clocks back</button><button class="chip" data-m="s" aria-pressed="false">Clocks forward</button><button class="chip" data-m="p" aria-pressed="false">Collisions per head</button><button class="chip lyr" id="lyrBtn" aria-expanded="false" aria-controls="lp">Layers</button></div>
+    </div>
+    <div class="lp" id="lp" role="dialog" aria-label="Map layers">
+      <h4>Layers</h4>
+      <label><input type="checkbox" id="lyD" checked> Districts (coloured)</label>
+      <label><input type="checkbox" id="lyX" checked> Outline: interval excludes zero</label>
+      <label><input type="checkbox" id="lyO" checked> District boundaries</label>
+      <label><input type="checkbox" id="lyL" checked> Base map labels</label>
+    </div>
+    <div class="keys" id="keys" style="bottom:12px"><b id="keyTitle">Week after the clocks go back</b><div class="bar" id="keyBar"></div><div class="ends" id="keyEnds"><span>-20%</span><span>0</span><span>+20%</span></div>
+      <div class="row kx" style="color:#6E604E" id="keySub">vs the same weekdays, three weeks either side</div><div class="row"><span style="display:inline-block;width:18px;height:11px;border:2px solid #2B2119"></span><span id="keySig">interval excludes zero</span></div><div class="row kx" style="color:#6E604E">Great Britain, 2023 districts, 2009 to 2025</div></div>
+  </div>
+</div>
+<div class="wrap" id="essay">
+<p style="margin-top:6px">Twice a year the clocks change, and twice a year someone warns that the roads are about to get more dangerous. In spring we lose an hour of sleep. In autumn the dark arrives in the middle of the drive home. I wanted to know whether the crashes actually follow, so I took every injury collision reported to the police in Great Britain since 1979 and compared the week after each clock change with the weeks around it.</p>
+<div class="byline">{{BYLINE}} · Data: Department for Transport road safety data (STATS19, Open Government Licence v3.0) · Base map: OpenFreeMap Positron</div>
+<div class="stats">
+<div class="stat"><b>{{x.coll_m|f1}}m</b><span>reported injury collisions, 1979 to 2025</span></div>
+<div class="stat"><b>{{data.events_main|int}}</b><span>clock changes compared with the weeks around them</span></div>
+<div class="stat"><b>{{x.h1_spring_n_pc|f1}}%</b><span>change in the week after the clocks go forward</span></div>
+<div class="stat"><b>{{x.h1_autumn_n_pc|f1}}%</b><span>change in the week after the clocks go back</span></div>
+</div>
+
+<h2><span class="n">01 · The whole week</span>No jump</h2>
+<p>For each change I compared the seven days from the Sunday of the change with the same weekdays one, two and three weeks before and after. Putting the comparison weeks on both sides cancels the steady seasonal drift in traffic and daylight. In the week after the clocks go forward, reported collisions changed by {{x.h1_spring_n_pc|f1}}% (95% interval {{x.h1_spring_n_lo_pc|f1}} to {{x.h1_spring_n_hi_pc|f1}}). In the week after they go back, by {{x.h1_autumn_n_pc|f1}}% ({{x.h1_autumn_n_lo_pc|f1}} to {{x.h1_autumn_n_hi_pc|f1}}). Both are zero within the noise, and the intervals rule out rises of more than about 3%.</p>
+<div class="figure"><img src="img/event.jpg" alt="Two line charts of the ratio of each day's collisions to the same weekday in the comparison weeks, from 21 days before to 27 days after the change: both seasons wander between about 0.93 and 1.08 with no step at the change, for all collisions and for fatal collisions" loading="lazy"><p class="src">Each day against the same weekday in the weeks around it, pooled over {{data.events_main|int}} changes.</p></div>
+<p>Fatal collisions are the one place a hint shows up. In the week after the clocks go back they were {{x.h1_autumn_fatal_pc|f1}}% higher, but the interval runs from {{x.h1_autumn_fatal_lo_pc|f1}}% to {{x.h1_autumn_fatal_hi_pc|f1}}%, and when I ran the same test on ordinary Sundays, {{x.pl_h1_autumn_fatal_count|int}} of {{data.placebo_weeks|int}} gave an estimate as large. After the clocks go forward, fatal collisions changed by {{x.h1_spring_fatal_pc|f1}}%.</p>
+
+<h2><span class="n">02 · The hour</span>The dark moves, the crashes barely do</h2>
+<p>The light really does move. In the weeks around the autumn change, {{x.dark_autumn_evening_ctrl_pc|f0}}% of collisions between 17:00 and 18:59 happened in the dark. In the week after it, {{x.dark_autumn_evening_treat_pc|f0}}%. Yet collisions in those two hours rose only {{x.h2_autumn_evening_n_pc|f1}}% compared with the middle of the day, and in spring, when those hours get lighter, they rose too ({{x.h2_spring_evening_n_pc|f1}}%). The chart shows every hour of every day around the change: pick a season and hover or tap a cell.</p>
+<div class="hd" id="hd">
+<div class="row1"><button data-s="autumn" aria-pressed="true">Clocks go back</button><button data-s="spring" aria-pressed="false">Clocks go forward</button><span id="hdLab" class="hdlab">share of each day's collisions in each clock hour, against the same hour in the comparison weeks</span></div>
+<svg id="hdSvg" viewBox="0 0 720 470" role="img" aria-label="Hour by day chart"></svg>
+<div class="tip" id="hdTip">Rows: days from the change (the Sunday is day 0). Columns: clock hour. Red: a bigger share of the day's collisions than usual in that hour; blue: smaller.</div>
+</div>
+<p>One pattern does stand out, though I did not plan to look for it. The evening rush hour's share of collisions steps up on the day the clocks go back and keeps climbing for weeks. Against only the three weeks before, the autumn evening rise is {{x.xp_aut_before_pc|f1}}%, bigger than any ordinary week produces. But the same step appears in spring, when evenings get lighter, so darkness cannot be the whole story.</p>
+<div class="figure"><img src="img/evening.jpg" alt="Line chart of the evening rush hour's share of collisions day by day around the change: in both seasons it is lower before the change and steps up on the day of the change, then keeps rising" loading="lazy"><p class="src">Exploratory: the evening hours' share of each day's collisions, against the same weekday in the comparison weeks.</p></div>
+<div class="figure"><img src="img/dark.jpg" alt="Two line charts of the share of collisions recorded in darkness by clock hour: in autumn the evening curve jumps an hour earlier after the change, in spring it moves an hour later" loading="lazy"><p class="src">Share of collisions police recorded in darkness, by clock hour.</p></div>
+<div class="figure"><img src="img/hours.jpg" alt="Dot and whisker charts of rate ratios for each clock hour: most hours lie between 0.9 and 1.1; in autumn 17:00 and 18:00 are a few per cent up and 16:00 down; in spring 19:00 is down; the change night's missing and doubled hour show at 01:00" loading="lazy"><p class="src">Each hour in the week after the change, against the weeks around it and against 10:00 to 15:59.</p></div>
+
+<h2><span class="n">03 · Checks</span>Ordinary weeks do the same</h2>
+<p>To see how big an effect ordinary weeks produce, I pretended the clocks had changed on other Sundays: {{data.placebo_weeks|int}} weeks of the year, pooled over the years. The real changes sit among them. Ordinary Sundays move the week's collisions by up to about 4% either way, and shift collisions between hours by at least as much as the autumn evening rise in {{x.pl_h2_autumn_evening_n_count|int}} of {{data.placebo_weeks|int}} cases, because half-terms, bank holidays and school holidays change when people travel. Outside the nation splits, every planned check, from different comparison weeks to separate decades, kept the whole week within about 3% of zero. Three intervals excluded zero: a small autumn fall when comparing only with later weeks, a spring rise of {{x.noeaster_spring_pc|f1}}% when springs with Easter in the change week are left out, and Scotland, where the week after the clocks go back had {{x.scot_autumn_pc|f1}}% more collisions from 2009 to 2025 (one of fourteen nation-level results, and not predicted).</p>
+<div class="figure"><img src="img/placebo.jpg" alt="Strip chart: grey dots for 29 ordinary Sundays and coloured markers for the real changes; the real whole-week estimates sit among the grey dots; only the autumn fatal estimate is near the edge" loading="lazy"><p class="src">The real changes against ordinary Sundays.</p></div>
+<div class="figure"><img src="img/robust.jpg" alt="Forest plot of the whole-week change under each check, almost all intervals crossing zero" loading="lazy"><p class="src">Every planned check.</p></div>
+<p>The map tells the same story locally. From 2009 to 2025, {{districts.autumn.excl1|int}} of {{districts.autumn.districts|int}} districts had a change after the autumn switch whose interval excludes zero. Chance alone would give about {{districts.autumn.excl1_expected|f0}}.</p>
+
+<h2><span class="n">04 · How I did this</span>Weeks, hours and a plan</h2>
+<p><b>Data.</b> The Department for Transport publishes every personal-injury road collision reported to the police in Great Britain, with the date, the clock time, the severity and whether it was light or dark. I reduced the {{data.collisions|int}} records to counts by day, hour, severity and light. Damage-only crashes and injuries never reported to the police are not in it.</p>
+<p><b>The plan.</b> I wrote down the comparison, the hour groups, the exclusions and the checks before computing any count around a clock change. The changes of spring 2020, autumn 2020 and spring 2021 were left out in advance because lockdown rules started or ended inside their windows. Within each day, a statistical model with a term for every calendar day compares only how the day's collisions are spread across the hours, which removes weather and holidays.</p>
+<p><b>What this cannot say.</b> This is the short-run effect of the change itself. It says nothing about whether permanently lighter winter evenings would be safer, which is a different question with different evidence. It counts collisions, not risk: if people walk and cycle more on light evenings, more collisions in those hours might mean more people out. And the October half-term often falls in the week after the clocks go back, which moves the school run.</p>
+<details><summary>Sources and licences</summary>
+<ul class="plain">
+<li>Collisions: Department for Transport, Road Safety Data (STATS19), dft-road-casualty-statistics-collision-1979-latest-published-year.csv, retrieved 2026. Open Government Licence v3.0.</li>
+<li>Clock-change dates: IANA Time Zone Database (Europe/London).</li>
+<li>District codes and 2020 populations: mySociety, UK local authority names and codes (CC BY 4.0). Boundaries: ONS local authority districts, December 2023 (Open Government Licence v3.0).</li>
+<li>Base map: OpenFreeMap Positron style (OpenStreetMap, ODbL). MapLibre GL JS 4.7.1 (BSD 3-Clause).</li>
+<li>Text, figures and data CC BY 4.0; code MIT.</li>
+</ul></details>
+<div class="cta"><a class="p" href="https://doi.org/10.5281/zenodo.24112857">Read the paper</a><a href="{{REPO}}">Data and code</a><a href="https://blog.tristanhotham.com/2026/10/31/clock-change-crashes/">Blog post</a></div>
+<footer>
+<p>Dr Tristan Hotham, Independent researcher. ORCID <a href="https://orcid.org/0000-0003-4931-9349">0000-0003-4931-9349</a>.</p>
+<p>Cite as: Hotham, T. (2026) Do the clocks kill? Reported road collisions either side of the clock changes in Great Britain, 1979 to 2025. Zenodo. <a href="https://doi.org/10.5281/zenodo.24112857">10.5281/zenodo.24112857</a></p>
+<p>Code: <a href="{{REPO}}">github.com/Tristan-Hotham/clock-change-crashes</a> (MIT). Text, figures and data CC BY 4.0.</p>
+<p>{{AI}}</p>
+</footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="js/page.js?v={{VERSION}}"></script>
+{{FULLSCREEN}}
+<script src="https://maps.tristanhotham.com/assets/site-nav.js" defer></script>
+</body>
+</html>

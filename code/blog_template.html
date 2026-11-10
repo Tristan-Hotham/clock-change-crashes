@@ -1,0 +1,151 @@
+<!-- wp:paragraph -->
+<p><em>Every spring and every autumn someone warns that the clock change will bring more crashes. I took every injury collision reported to the police in Great Britain since 1979, {{x.coll_m|f1}} million of them, and compared the week after each change with the weeks around it. The crashes did not follow.</em></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://maps.tristanhotham.com/clock-change-crashes/">Explore the interactive version</a></div>
+<!-- /wp:button -->
+<!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://doi.org/10.5281/zenodo.24112857">Read the paper</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
+
+<!-- wp:paragraph -->
+<p>There are two stories about why changing the clocks might be dangerous. The first is about sleep. When the clocks go forward in March we lose an hour in bed, and a tired driver is a worse driver. The second is about light. Most of us live by the clock, not the sun, so when the clocks go back in October the drive home suddenly happens in the dark. Darkness makes the roads more dangerous, especially for people on foot.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Both stories are plausible, and studies in the United States have found that fatal crashes rise by around six per cent in the week after the spring change. But other studies find nothing, and a careful review of the evidence in 2017 concluded that it pointed in no clear direction. Britain has one of the longest road collision records anywhere, so I asked it directly.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">No jump</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The Department for Transport publishes every personal injury road collision reported to the police in Great Britain, with its date, time, severity and whether it happened in daylight or darkness. The file goes back to 1979 and now runs to 2025: {{data.collisions|int}} collisions. Over those 47 years the clocks changed {{data.events|int}} times. I left out three changes, in 2020 and the spring of 2021, because lockdown rules began or ended in the middle of them, which leaves {{data.events_main|int}}.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>For each change I compared the seven days starting on the Sunday of the change with the same days of the week one, two and three weeks earlier and one, two and three weeks later. Looking both ways matters, because traffic and daylight drift steadily through March and October, and comparing only with the week before would mistake that drift for an effect.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>In the week after the clocks go forward, reported collisions changed by {{x.h1_spring_n_pc|f1}}%. In the week after they go back, by {{x.h1_autumn_n_pc|f1}}%. Both are zero within the noise: the 95% intervals run from {{x.h1_spring_n_lo_pc|f1}}% to {{x.h1_spring_n_hi_pc|f1}}% and from {{x.h1_autumn_n_lo_pc|f1}}% to {{x.h1_autumn_n_hi_pc|f1}}%. Day by day, there is no step on the Sunday of the change or in the days after it.</p>
+<!-- /wp:paragraph -->
+
+{{IMG|b_event.png|Two line charts of each day's collisions divided by the usual for that weekday, from three weeks before to four weeks after the clock change: both seasons wobble around 1 with no step at the change, for all collisions and for fatal ones|Each day's collisions against the same weekday in the comparison weeks, pooled over {{data.events_main|int}} clock changes, 1979 to 2025. Shaded bands are 95% intervals.}}
+
+<!-- wp:paragraph -->
+<p>Change by change, the week after a clock change sometimes has more collisions and sometimes fewer, in roughly equal measure. The spring changes swing more than the autumn ones because Easter, with its bank holidays and school holidays, sometimes falls in the week after the change and sometimes in the weeks around it.</p>
+<!-- /wp:paragraph -->
+
+{{IMG|b_years.png|Line chart from 1979 to 2025 of the change in collisions in the week after each clock change, scattered between about minus 20 and plus 25 per cent around zero for both spring and autumn|The week after each change against the same weekdays three weeks either side. Gaps are the changes left out in 2020 and 2021.}}
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">The dark moves, the crashes barely do</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The light story makes a sharper prediction than the sleep story. If the dark is what matters, collisions should move between hours of the day: towards the evening rush hour when the clocks go back, away from it when they go forward. To test that, I compared how each day's collisions were spread across its hours, so that anything affecting a whole day, like the weather or a bank holiday, drops out.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The light certainly moves. In the weeks around the autumn change, {{x.dark_autumn_evening_ctrl_pc|f0}}% of collisions between five and seven in the evening happened in the dark. In the week after the clocks go back, {{x.dark_autumn_evening_treat_pc|f0}}%. In spring the same hours go from {{x.dark_spring_evening_ctrl_pc|f0}}% dark to {{x.dark_spring_evening_treat_pc|f0}}%.</p>
+<!-- /wp:paragraph -->
+
+{{IMG|b_dark.png|Two line charts of the share of collisions recorded in darkness by clock hour; after the autumn change the evening curve jumps an hour earlier, after the spring change it moves an hour later|Share of collisions that police recorded as in darkness, by clock hour: the three weeks either side (dashed) and the week after the change (solid).}}
+
+<!-- wp:paragraph -->
+<p>The collisions, though, hardly move with it. After the autumn change, collisions between five and seven rose {{x.h2_autumn_evening_n_pc|f1}}% compared with the middle of the day. That is in the direction the dark predicts, but small. And after the spring change, when those same hours become light, their share rose too, by {{x.h2_spring_evening_n_pc|f1}}%, instead of falling. Put the two seasons together and the evening effect of darkness comes out at {{x.h3_evening_n_pc|f1}}%.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>One pattern does stand out, and I did not plan to look for it. Day by day, the evening rush hour's share of collisions steps up on the very day the clocks go back, and then keeps climbing for weeks. Measured against only the three weeks before, the autumn evening rise is {{x.xp_aut_before_pc|f1}}%, bigger than any ordinary week produces. But the same step appears in spring, when the evenings get lighter, so the dark cannot be the whole story. School holidays and changing routines around the change are just as likely. I count it as a clue, not an answer.</p>
+<!-- /wp:paragraph -->
+
+{{IMG|b_hours.png|Dot and whisker charts of the change in each clock hour in the week after the change; most hours sit within about ten per cent of no change; in autumn five and six in the evening are a few per cent up and four o'clock is down|Each clock hour in the week after the change against the same hour in the comparison weeks and against 10:00 to 15:59. The odd hours at 01:00 are the change night itself, which has one hour fewer in spring and one more in autumn.}}
+
+<!-- wp:pullquote -->
+<figure class="wp-block-pullquote"><blockquote><p>The autumn change pushes {{x.dark_autumn_evening_treat_pc|f0}}% of the evening rush hour's collisions into the dark. The number of collisions barely notices.</p></blockquote></figure>
+<!-- /wp:pullquote -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Ordinary weeks do the same</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>How do I know a change of a few per cent is noise? I pretended the clocks had changed on ordinary Sundays instead, and ran exactly the same comparison: {{data.placebo_weeks|int}} weeks of the year, each pooled over the years. Ordinary Sundays move the following week's collisions by up to about 4% either way. The real clock changes sit in the middle of them.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The one result that stands near the edge is for fatal collisions after the clocks go back: {{x.h1_autumn_fatal_pc|f1}}% higher, with an interval from {{x.h1_autumn_fatal_lo_pc|f1}}% to {{x.h1_autumn_fatal_hi_pc|f1}}%. Only {{x.pl_h1_autumn_fatal_count|int}} of the {{data.placebo_weeks|int}} ordinary weeks gave an estimate as large. That is worth watching, but on its own it is a hint, not a finding. After the clocks go forward, fatal collisions did not change at all ({{x.h1_spring_fatal_pc|f1}}%).</p>
+<!-- /wp:paragraph -->
+
+{{IMG|b_placebo.png|Strip chart with grey dots for ordinary Sundays and coloured markers for the real clock changes; the real whole-week results sit among the grey dots, and only the autumn fatal result is near the edge|The real clock changes (coloured) against ordinary Sundays treated as if the clocks had changed (grey).}}
+
+<!-- wp:paragraph -->
+<p>Ordinary weeks also shuffle collisions between hours by several per cent, because half terms, bank holidays and the end of the school year change when people travel. In {{x.pl_h2_autumn_evening_n_count|int}} of the {{data.placebo_weeks|int}} ordinary weeks the evening shift was at least as large as after the autumn clock change.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The same is true on the map. For each local authority district I compared the week after each autumn change with the weeks around it, from 2009 to 2025. {{districts.autumn.excl1|int}} of {{districts.autumn.districts|int}} districts had a change clear enough to rule out zero, about as many as chance alone would produce ({{districts.autumn.excl1_expected|f0}}). There is no part of Britain where the clocks stand out.</p>
+<!-- /wp:paragraph -->
+
+{{IMG|b_map.png|Map of Great Britain's local authority districts coloured from blue to red by the change in collisions in the week after the clocks go back, a patchwork with no regional pattern; {{districts.autumn.excl1|int}} districts outlined|The week after the clocks go back against the three weeks either side, by district, 2009 to 2025. Outlined districts have intervals that exclude zero; chance alone would give about {{districts.autumn.excl1_expected|f0}}.}}
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">What this does and does not say</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>It says that the clock change itself, the jolt of moving an hour, is not followed by a measurable rise in reported road collisions in Britain. In the main comparison, any rise is smaller than about 3% of a week's collisions.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>It does not settle the bigger argument about lighter evenings. Between 1968 and 1971 Britain kept its clocks an hour ahead all winter, and the official review reported fewer casualties at the times of day affected, while warning that the crude figures needed to be treated with reserve. The breath test had arrived only a few months before the experiment began, which makes the comparison harder. Whether permanently lighter winter evenings would save lives is a question about the whole winter, not about one week, and it needs different methods.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>It also counts collisions, not risk. If more people walk and cycle on light evenings, as other research has found, then more collisions in a light hour might simply mean more people out. And only collisions reported to the police are in the data.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">How I did this</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>I took the clock change dates from the international time zone database rather than typing them in, because the rules have changed: before 1996 the autumn change usually came a week earlier than now. I reduced the collision records to counts by day, hour, severity and light, and wrote down the whole analysis plan before computing any count around a clock change: the comparison weeks, the hour groups, the changes to leave out, the placebo and the checks. The main models are Poisson regressions with a fixed effect for each change and weekday, or for each day, and intervals that allow for the two changes of the same year being related. I ran twelve planned checks, from different comparison weeks to separate decades and nations. Nearly all of them keep the whole week within about 3% of zero. Three had intervals that rule out zero. Comparing only with the weeks after gives a small autumn fall, which is what the seasonal drift predicts. Leaving out the springs with Easter in the change week gives a spring rise of {{x.noeaster_spring_pc|f1}}%, so a small spring rise hidden by Easter holidays cannot be ruled out. And Scotland had {{x.scot_autumn_pc|f1}}% more collisions in the week after the clocks go back, from 2009 to 2025: one of fourteen results for the separate nations, and not one I had predicted. The full details are in the paper.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://maps.tristanhotham.com/clock-change-crashes/">Explore the interactive version</a></div>
+<!-- /wp:button -->
+<!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://doi.org/10.5281/zenodo.24112857">Read the paper</a></div>
+<!-- /wp:button -->
+<!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://github.com/Tristan-Hotham/clock-change-crashes">Data and code</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Notes and sources</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><!-- wp:list-item -->
+<li>Collisions: Department for Transport, Road Safety Data (STATS19), every personal injury road collision reported to the police in Great Britain, 1979 to 2025, retrieved 2026. Open Government Licence v3.0.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Clock change dates: the IANA Time Zone Database. District codes and populations: mySociety (CC BY 4.0). Boundaries: ONS (Open Government Licence v3.0). Base map: OpenFreeMap, OpenStreetMap contributors (ODbL).</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Further reading: R. Carey and K. Sarma, Impact of daylight saving time on road traffic collision risk: a systematic review, BMJ Open (2017); A. Smith, Spring forward at your own risk, American Economic Journal: Applied Economics (2016); J. Broughton, M. Hazelton and M. Stone, Influence of light level on the incidence of road casualties, Journal of the Royal Statistical Society A (1999); Home Office, Review of British Standard Time (1970).</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>I wrote the text, with drafting and editing assistance from Claude (Anthropic), which also helped prepare the analysis code. I reviewed and checked all text and results.</li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list -->
